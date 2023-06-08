@@ -7,13 +7,13 @@ dotenv.config();
 // const secretKey  = process.env.secretKey;
 const salt  = process.env.salt;
 // --------------------Users 
-export async function getUsers(req, res) {
-  const { email } = req.query;
-  const thisUser = await User.findOne({email});
+export async function getUser(req, res) {
+  const { id } = req.query;
+  const thisUser = await User.findOne({id});
   res.status(200).send(thisUser);
 }
 
-export async function addUser(req, res) {
+export async function signUp(req, res) {
   try {
     const { email, password, uid } = req.body;
   
@@ -54,7 +54,7 @@ export async function addUser(req, res) {
   }
 }
 
-export async function getUser(req, res) {
+export async function login(req, res) {
   const {email, password} = req.body
   if(!email || !password) {
     res.status(400).send({message: 'Email and password both required'})
@@ -71,9 +71,9 @@ export async function getUser(req, res) {
 }
 
 export async function addUserInfo(req, res) {
-  const { email } = req.query;
+  const { id } = req.query;
   try {
-    const filter = { email };
+    const filter = { id };
     const update = { $set: req.body };
     const options = { returnOriginal: false };
     const updatedUser = await User.findOneAndUpdate(filter, update, options);

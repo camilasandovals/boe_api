@@ -1,5 +1,6 @@
 import express from "express";
-import { signUp, login, addUserInfo, getUser, selectedSchool, getMedInfo, addMedication, deleteMedication, updateMedication } from "../controllers/myControllers.js";
+import { signUp, login, addUserInfo, getUser } from "../controllers/users.js";
+import { getSchools, selectedSchool} from "../controllers/schools.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
