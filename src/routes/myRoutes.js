@@ -7,7 +7,6 @@ router.get("/", (req, res) => {
   res.send("Welcome to my API");
 });
 
-
 router.post("/signup", signUp);
 router.post("/login", login);
 router.patch("/users/:docId", addUserInfo);
