@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import { mongoose } from "mongoose";
 
 const ContactSchema = new mongoose.Schema({
   name: {
@@ -68,5 +68,4 @@ const SchoolSchema = new mongoose.Schema({
 
 const SchoolModel = mongoose.model("School", SchoolSchema);
 
-exports.School = SchoolModel;
-exports.SchoolSchema = SchoolSchema;
+export default SchoolModel
