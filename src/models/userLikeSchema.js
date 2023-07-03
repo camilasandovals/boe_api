@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import { mongoose } from "mongoose"
 
 const UserLikeSchema = new mongoose.Schema({
   user_id: {
@@ -21,5 +21,4 @@ const UserLikeSchema = new mongoose.Schema({
 
 const UserLikeModel = mongoose.model("UserLike", UserLikeSchema);
 
-exports.UserLike = UserLikeModel;
-exports.UserLikeSchema = UserLikeSchema;
+export default UserLikeModel
