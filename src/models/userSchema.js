@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import { mongoose } from "mongoose"
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -10,7 +10,6 @@ const UserSchema = new mongoose.Schema({
       message: (props) =>
         `should only contain letters. No special characters or numbers.`,
     },
-    required: true,
     minlength: 1,
     maxlength: [20, "Cannot be longer than 20 characters."],
   },
@@ -23,7 +22,6 @@ const UserSchema = new mongoose.Schema({
       message: (props) =>
         `should only contain letters. No special characters or numbers.`,
     },
-    required: true,
     minlength: 1,
     maxlength: [20, "Cannot be longer than 20 characters."],
   },
@@ -48,5 +46,4 @@ const UserSchema = new mongoose.Schema({
 
 const UserModel = mongoose.model("User", UserSchema);
 
-exports.UserModel = UserModel;
-exports.UserSchema = UserSchema;
+export default UserModel
