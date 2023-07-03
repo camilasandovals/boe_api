@@ -42,6 +42,19 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  biography: {
+    type: String,
+    minlength: 1,
+    maxlength: [300, "Cannot be longer than 300 characters."],
+  },
+  city: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  
 });
 
 const UserModel = mongoose.model("User", UserSchema);

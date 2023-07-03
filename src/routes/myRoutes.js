@@ -1,7 +1,8 @@
 import express from "express";
 // import { signUp, login, addUserInfo, getUser } from "../controllers/users.js";
-import { login, signUp, getUser } from "../controllers/users.js";
+import { login, signUp, getUser, addUserInfo } from "../controllers/users.js";
 import { getSchools } from "../controllers/schools.js";
+import { subscribe } from "../controllers/suscriber.js";
 import { getBlogs } from "../controllers/blogs.js";
 import { getEvents } from "../controllers/events.js";
 
@@ -13,8 +14,9 @@ router.get("/api", (req, res) => {
 
 router.post("/signup", signUp);
 router.post("/login", login);
-// router.patch("/users/:docId", addUserInfo);
-router.post("/api/users", getUser);
+router.patch("/users", addUserInfo);
+router.post("/subscribe", subscribe);
+// router.post("/api/users", getUser);
 router.get("/api/schools", getSchools);
 router.get("/api/blogs", getBlogs);
 router.get("/api/events", getEvents);

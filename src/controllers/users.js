@@ -25,14 +25,6 @@ export async function signUp(req, res) {
       return;
     }
 
-    // if (!firstName || !lastName) {
-    //   res.status(400).send({
-    //     message:
-    //       "Full name is required",
-    //   });
-    //   return;
-    // }
-
     const doc = await User.findOne({ email: email.toLowerCase() })
     if (doc) {
         res.status(401).send({message: "Email already exists. Please try logging in instead"})
@@ -74,15 +66,21 @@ export async function login(req, res) {
   res.send(user)
 }
 
-// export async function addUserInfo(req, res) {
-//   const { id } = req.query;
-//   try {
-//     const filter = { id };
-//     const update = { $set: req.body };
-//     const options = { returnOriginal: false };
-//     const updatedUser = await User.findOneAndUpdate(filter, update, options);
-//     await getUsers(req, res);
-//   } catch (error) {
-//     res.status(500).send({ message: "Error updating user" });
-//   }
-// }
+export async function addUserInfo(req, res) {
+  const { email } = req.query;
+  try {
+    const filter = { email };
+    const update = { $set: req.body };
+    const options = { returnOriginal: false };
+    const updatedUser = await User.findOneAndUpdate(filter, update, options);
+    if (updatedUser) {
+      res.send(updatedUser);
+    } else {
+      res.status(404).send({ message: "No user found with the provided email." });
+    }
+  } catch (error) {
+    console.error(error); // log the error to the console
+    res.status(500).send({ message: "Error updating user", error: error });
+  }
+}
+
