@@ -5,6 +5,7 @@ import { getSchools } from "../controllers/schools.js";
 import { subscribe } from "../controllers/suscriber.js";
 import { getBlogs } from "../controllers/blogs.js";
 import { getEvents } from "../controllers/events.js";
+import { addLike } from "../controllers/userlikes.js";
 
 const router = express.Router();
 
@@ -14,12 +15,13 @@ router.get("/api", (req, res) => {
 
 router.post("/signup", signUp);
 router.post("/login", login);
-router.patch("/users", addUserInfo);
 router.post("/subscribe", subscribe);
-// router.post("/api/users", getUser);
 router.get("/api/schools", getSchools);
 router.get("/api/blogs", getBlogs);
 router.get("/api/events", getEvents);
+router.post("/userlikes", addLike)
+// router.patch("/users", addUserInfo);
+// router.post("/api/users", getUser);
 
 // router.get("/schools/:docId", selectedSchool);
 
