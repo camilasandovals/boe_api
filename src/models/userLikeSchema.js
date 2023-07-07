@@ -1,12 +1,16 @@
 import { mongoose } from "mongoose"
 
 const UserLikeSchema = new mongoose.Schema({
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
+  user: {
+    type: String,
     required: true,
   },
-  school_id: {
-    type: mongoose.Schema.Types.ObjectId,
+  school: {
+    type: String,
+    required: true,
+  },
+  program: {
+    type: String,
     required: true,
   },
   is_liked: {

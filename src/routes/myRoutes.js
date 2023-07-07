@@ -15,12 +15,12 @@ router.get("/api", (req, res) => {
 
 router.post("/signup", signUp);
 router.post("/login", login);
-router.post("/subscribe", subscribe);
 router.get("/api/schools", getSchools);
-router.get("/api/blogs", getBlogs);
 router.get("/api/events", getEvents);
+router.get("/api/blogs", getBlogs);
+router.post("/subscribe", subscribe);
+router.patch("/api/users", addUserInfo);
 router.post("/userlikes", addLike)
-// router.patch("/users", addUserInfo);
 // router.post("/api/users", getUser);
 
 // router.get("/schools/:docId", selectedSchool);

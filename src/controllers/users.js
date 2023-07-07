@@ -79,7 +79,7 @@ export async function addUserInfo(req, res) {
       res.status(404).send({ message: "No user found with the provided email." });
     }
   } catch (error) {
-    console.error(error); // log the error to the console
+    console.error(error); 
     res.status(500).send({ message: "Error updating user", error: error });
   }
 }
