@@ -28,9 +28,9 @@ export async function addLike(req, res) {
             } else {
                 res.status(404).send({ message: "You need to be logged in." });
             }
+            return
         }
-    
-    else {
+
         const userLikeData = new UserLike({
         user: user,
         school: school,
@@ -39,7 +39,6 @@ export async function addLike(req, res) {
         });
         const addUser = await userLikeData.save();
         res.status(201).send(addUser);
-        }
         
     } catch (error) {
         console.error(error); 

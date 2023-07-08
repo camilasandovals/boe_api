@@ -6,13 +6,6 @@ dotenv.config();
 const salt  = process.env.salt;
 
 
-// --------------------Users 
-export async function getUser(req, res) {
-  const {_id} = req.body;
-  const thisUser = await User.findOne({_id});
-  res.status(200).send(thisUser);
-}
-
 export async function signUp(req, res) {
   try {
     const { email, password, firstName, lastName} = req.body;

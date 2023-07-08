@@ -1,13 +1,8 @@
-// -------------------------------  Subscribe Page Schema -------------------------------------- //
-
-const mongoose = require("mongoose");
+import { mongoose } from "mongoose"
 
 const premiumApplicationSchema = new mongoose.Schema({
-  Organization: {
-    type: String,
-    required: true,
-  },
-  First_Name: {
+  
+  firstName: {
     type: String,
     required: [true, "Please enter first name"],
     validate: {
@@ -18,7 +13,7 @@ const premiumApplicationSchema = new mongoose.Schema({
         `should only contain letters, spaces, or dashes (-). No special characters or numbers.`,
     },
   },
-  Last_Name: {
+  lastName: {
     type: String,
     required: [true, "Please enter last name"],
     validate: {
@@ -29,29 +24,26 @@ const premiumApplicationSchema = new mongoose.Schema({
         `should only contain letters, spaces, or dashes (-). No special characters or numbers.`,
     },
   },
-  Email: {
+  email: {
     type: String,
     required: [true, "Please enter email"],
   },
-  AppliedForTrade: {
-    type: String,
-    required: [true, "Please enter your trade of interest"],
-  },
-  Resume: String,
-  Additional_Comments: {
+  
+  resume: String,
+  additionalComments: {
     type: String,
     required: false,
     maxlength: [1000, "Cannot be longer than 1000 characters."],
   },
-  User_Id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
-  },
-  School_Id: {
-    type: mongoose.Schema.Types.ObjectId,
+  program: {
+    type: String,
     required: true,
   },
-  Date: {
+  school: {
+    type: String,
+    required: true,
+  },
+  date: {
     type: Date,
     default: Date.now,
   },
@@ -62,6 +54,4 @@ const PremiumApplication = mongoose.model(
   premiumApplicationSchema
 );
 
-exports.PremiumApplication = PremiumApplication;
-
-exports.premiumApplicationSchema = premiumApplicationSchema;
+export default PremiumApplication;
