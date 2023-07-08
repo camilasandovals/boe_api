@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  biography: {
+  bio: {
     type: String,
     minlength: 1,
     maxlength: [300, "Cannot be longer than 300 characters."],
@@ -54,7 +54,14 @@ const UserSchema = new mongoose.Schema({
   state: {
     type: String,
   },
-  
+
+  category: {
+    type: String,
+  },
+
+  skills: {
+    type: [String],
+  },
 });
 
 const UserModel = mongoose.model("User", UserSchema);
