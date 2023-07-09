@@ -46,7 +46,7 @@ const UserSchema = new mongoose.Schema({
   bio: {
     type: String,
     minlength: 1,
-    maxlength: [300, "Cannot be longer than 300 characters."],
+    maxlength: [200, "Cannot be longer than 200 characters."],
   },
   city: {
     type: String,
@@ -62,6 +62,9 @@ const UserSchema = new mongoose.Schema({
   skills: {
     type: [String],
   },
+  img: {
+    type: String,
+  }
 });
 
 const UserModel = mongoose.model("User", UserSchema);

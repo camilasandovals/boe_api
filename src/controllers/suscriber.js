@@ -31,19 +31,32 @@ export async function subscribe(req, res) {
     const options = {
       method: "POST",
       headers: {
-        "Authorization": "henryc:70cedfe5133abb9c55925c001b047f97-us21",
+        "Authorization": "henryc:c3750c64e36c06768611df64fd536be3-us21",
         "Content-Type": "application/json",
       },
     };
 
-    const request = https.request(url, options, function(response){
-      response.on("data", function(data){
-        console.log(JSON.parse(data));
+    const mailchimpResponse = await new Promise((resolve, reject) => {
+      const request = https.request(url, options, function(response){
+        response.on("data", function(data){
+          resolve(JSON.parse(data));
+        });
       });
+
+      request.on('error', (error) => {
+        reject(error);
+      });
+
+      request.write(jsonData);
+      request.end();
     });
 
-    request.write(jsonData);
-    request.end();
+    console.log(mailchimpResponse);
+
+    if(mailchimpResponse.status === 400) {
+      res.status(400).send({message: "Subscription to Mailchimp failed!"});
+      return;
+    }
 
     res.status(201).send({message: "You successfully subscribed to BOE!"});
   } catch (error) {
