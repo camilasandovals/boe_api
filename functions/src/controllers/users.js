@@ -1,9 +1,6 @@
 import { hashSync } from "bcrypt"
 import User from "../models/userSchema.js";
-import dotenv from "dotenv";
-dotenv.config();
-
-const salt  = process.env.salt;
+import { salt } from "../../env.js";
 
 
 export async function signUp(req, res) {
@@ -13,7 +10,7 @@ export async function signUp(req, res) {
     if (!email || (password && password.length < 8)) {
       res.status(400).send({
         message:
-          "Email and password are required. Password must be 8 characters or long",
+          "Email and password are required. Password must be 8 characters or longer",
       });
       return;
     }
