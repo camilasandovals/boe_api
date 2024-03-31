@@ -1,7 +1,7 @@
 import { mongoose } from "mongoose"
 
 const UserSchema = new mongoose.Schema({
-  firstName: {
+  name: {
     type: String,
     validate: {
       validator: function (v) {
@@ -48,10 +48,7 @@ const UserSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: [200, "Cannot be longer than 200 characters."],
   },
-  city: {
-    type: String,
-  },
-  state: {
+  location: {
     type: String,
   },
 

@@ -26,7 +26,7 @@ const LocationSchema = new mongoose.Schema({
   },
 });
 
-const SchoolSchema = new mongoose.Schema({
+const MemberSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -34,38 +34,56 @@ const SchoolSchema = new mongoose.Schema({
   },
   logoUrl: {
     type: String,
+    minlength: 1,
+  },
+  website: {
+    type: String,
     required: true,
     minlength: 1,
   },
-  siteUrl: {
+  industry: {
     type: String,
     required: true,
     minlength: 1,
   },
   applyUrl: {
     type: String,
-    required: true,
     minlength: 1,
   },
   type: {
     type: String,
-    required: true,
     minlength: 1,
   },
   description: {
     type: String,
+    minlength: 1,
+  },
+  email: {
+    type: String,
     required: true,
     minlength: 1,
   },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+  },
+  
   location: LocationSchema,
   pointOfContact: ContactSchema,
   program: {
     type: String,
-    required: true,
   },
   premiumMembership: Boolean,
 });
 
-const SchoolModel = mongoose.model("School", SchoolSchema);
+const MemberModel = mongoose.model("Member", MemberSchema);
 
-export default SchoolModel
+export default MemberModel;

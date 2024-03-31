@@ -1,11 +1,15 @@
 import { hashSync } from "bcrypt"
 import User from "../models/userSchema.js";
 import { salt } from "../../env.js";
-
+import Member from "../models/schoolSchema.js";
+import sharp from 'sharp';
+import mongoose from "mongoose";
+import { secretKey } from "../../env.js";
+import jwt from 'jsonwebtoken';
 
 export async function signUp(req, res) {
   try {
-    const { email, password, firstName, lastName} = req.body;
+    const { email, password, name, lastName} = req.body;
   
     if (!email || (password && password.length < 8)) {
       res.status(400).send({
@@ -21,17 +25,22 @@ export async function signUp(req, res) {
         return;
     }
 
-    
     const hashedPassword = hashSync(password, salt)
     
     const newUser = new User({
       email: email.toLowerCase(),
       password: hashedPassword || null,
     });
+    
+    const token = jwt.sign({ id: User._id }, secretKey);
+    const savedUser = await newUser.save();
 
-    const addUser = await newUser.save();
+    const userResponse = {
+      email: savedUser.email,
+      token: token
+    };
 
-    res.status(201).send(addUser);
+    res.status(201).json(userResponse);
   } 
   catch (error) {
     res.status(500).json({
@@ -43,34 +52,97 @@ export async function signUp(req, res) {
 
 export async function login(req, res) {
   const {email, password} = req.body
+  try {
+
+
   if(!email || !password) {
     res.status(400).send({message: 'Email and password both required'})
     return
   }
   const hashedPassword = hashSync(password, salt)
   let user = await User.findOne({email: email.toLowerCase(), password: hashedPassword})
+  let type = "user"
   if(!user) {
-    res.status(401).send({message: "Invalid email or password"})
-    return
+    user = await Member.findOne({email: email.toLowerCase(), password: hashedPassword})
+    if (user.isVerified == false) {
+      res.status(401).send({message: 'Check your email to verify your account'})
+    }
+    type = "member"
+    if(!user) {
+      res.status(401).send({message: 'Invalid email or password'})
+      return
+    }
   }
-  res.send(user)
+
+  const token = jwt.sign({ id: user._id }, secretKey);
+  let userResponse = {}
+  if (type == "user") {
+    userResponse = {
+    type: type,
+    email: user.email,
+    token: token,
+    name: user.name,
+    lastName: user.lastName,
+    location: user.location,
+    category: user.category,
+    bio: user.bio,
+    skills: user.skills,
+  };
+} else {
+  userResponse = {
+    name: user.name,
+    website: user.website,
+    industry: user.industry,
+    type: "member",
+    email: user.email,
+    typeOf: user.type,
+    token: token,
+    description: user.description
+  }
+}
+  res.status(200).send(userResponse);
+
+  } catch (error) {
+    res.status(500).json({
+      error: [error.message],
+      message: "An error occurred"
+    })
+  }
 }
 
 export async function addUserInfo(req, res) {
-  const { email } = req.query;
   try {
-    const filter = { email };
+    const userId = req.user.id;
+
+    if (!userId) {
+      return res.status(400).send({ message: "User ID is required" });
+    }
+
+    const filter = { _id: userId };
     const update = { $set: req.body };
-    const options = { returnOriginal: false };
+    const options = { new: true }; 
+
     const updatedUser = await User.findOneAndUpdate(filter, update, options);
+    const token = jwt.sign({ id: User._id }, secretKey);
     if (updatedUser) {
-      res.send(updatedUser);
+      const userResponse = {
+        type: "user",
+        email: updatedUser.email,
+        token: token,
+        name: updatedUser.name,
+        lastName: updatedUser.lastName,
+        location: updatedUser.location,
+        category: updatedUser.category,
+        bio: updatedUser.bio,
+        skills: updatedUser.skills,
+      };
+      res.send(userResponse);
     } else {
-      res.status(404).send({ message: "No user found with the provided email." });
+      res.status(404).send({ message: "User not found." });
     }
   } catch (error) {
     console.error(error); 
-    res.status(500).send({ message: "Error updating user", error: error });
+    res.status(500).send({ message: "Error updating user", error: error.message });
   }
 }
 

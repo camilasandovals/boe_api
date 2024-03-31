@@ -1,19 +1,19 @@
-import { mongoose } from "mongoose"
+import mongoose from "mongoose";
 
-const UserLikeSchema = new mongoose.Schema({
+const { Schema, model } = mongoose;
+
+const UserLikeSchema = new Schema({
   user: {
-    type: String,
-    required: true,
-  },
-  school: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   program: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Program",
     required: true,
   },
-  is_liked: {
+  isLiked: {
     type: Boolean,
     required: true,
   },
@@ -23,6 +23,6 @@ const UserLikeSchema = new mongoose.Schema({
   },
 });
 
-const UserLikeModel = mongoose.model("UserLike", UserLikeSchema);
+const UserLikeModel = model("UserLike", UserLikeSchema);
 
 export default UserLikeModel
