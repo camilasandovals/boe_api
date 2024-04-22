@@ -129,7 +129,8 @@ export async function getMemberApplications(req, res) {
       { $unwind: "$userDetails" },
       {
         $project: {
-          "Date": 1,
+          "date": 1,
+          "resumePath": 1,
           "programDetails": 1,
           "userDetails": { email: 1, name: 1, lastName: 1, avatar: 1 }
         }

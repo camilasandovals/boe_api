@@ -1,0 +1,47 @@
+[debug] [2024-04-21T15:29:00.584Z] ----------------------------------------------------------------------
+[debug] [2024-04-21T15:29:00.585Z] Command:       /Users/mariacamilasandovalsantana/.nvm/versions/node/v16.20.0/bin/node /Users/mariacamilasandovalsantana/.nvm/versions/node/v16.20.0/bin/firebase deploy
+[debug] [2024-04-21T15:29:00.586Z] CLI Version:   12.4.4
+[debug] [2024-04-21T15:29:00.586Z] Platform:      darwin
+[debug] [2024-04-21T15:29:00.586Z] Node Version:  v16.20.0
+[debug] [2024-04-21T15:29:00.586Z] Time:          Sun Apr 21 2024 11:29:00 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-04-21T15:29:00.587Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-04-21T15:29:00.620Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-04-21T15:29:00.620Z] > authorizing via signed-in user (henry@boepartners.com)
+[debug] [2024-04-21T15:29:00.620Z] [iam] checking project boepartners-api for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-04-21T15:29:00.621Z] > refreshing access token with scopes: []
+[debug] [2024-04-21T15:29:00.622Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-04-21T15:29:00.622Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-04-21T15:29:00.842Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2024-04-21T15:29:00.843Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-04-21T15:29:00.843Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/boepartners-api:testIamPermissions [none]
+[debug] [2024-04-21T15:29:00.843Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/boepartners-api:testIamPermissions x-goog-quota-user=projects/boepartners-api
+[debug] [2024-04-21T15:29:00.843Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/boepartners-api:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-04-21T15:29:01.014Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/boepartners-api:testIamPermissions 401
+[debug] [2024-04-21T15:29:01.014Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/boepartners-api:testIamPermissions {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"ACCESS_TOKEN_TYPE_UNSUPPORTED","metadata":{"service":"cloudresourcemanager.googleapis.com","method":"google.cloudresourcemanager.v1.Projects.TestIamPermissions"}}]}}
+[debug] [2024-04-21T15:29:01.015Z] [iam] error while checking permissions, command may fail: FirebaseError: HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2024-04-21T15:29:01.015Z] > refreshing access token with scopes: []
+[debug] [2024-04-21T15:29:01.015Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-04-21T15:29:01.015Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-04-21T15:29:01.180Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2024-04-21T15:29:01.180Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-04-21T15:29:01.181Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/boepartners-api/serviceAccounts/boepartners-api@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2024-04-21T15:29:01.181Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/boepartners-api/serviceAccounts/boepartners-api@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2024-04-21T15:29:01.397Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/boepartners-api/serviceAccounts/boepartners-api@appspot.gserviceaccount.com:testIamPermissions 401
+[debug] [2024-04-21T15:29:01.397Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/boepartners-api/serviceAccounts/boepartners-api@appspot.gserviceaccount.com:testIamPermissions {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"ACCESS_TOKEN_TYPE_UNSUPPORTED","metadata":{"service":"iam.googleapis.com","method":"google.iam.admin.v1.IAM.TestIamPermissions"}}]}}
+[debug] [2024-04-21T15:29:01.397Z] [functions] service account IAM check errored, deploy may fail: HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project. {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"ACCESS_TOKEN_TYPE_UNSUPPORTED","metadata":{"service":"iam.googleapis.com","method":"google.iam.admin.v1.IAM.TestIamPermissions"}}]}},"response":{"statusCode":401}},"exit":1,"message":"HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":401}
+[debug] [2024-04-21T15:29:01.398Z] > refreshing access token with scopes: []
+[debug] [2024-04-21T15:29:01.399Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-04-21T15:29:01.399Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-04-21T15:29:01.570Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2024-04-21T15:29:01.570Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-04-21T15:29:01.571Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/boepartners-api [none]
+[debug] [2024-04-21T15:29:01.705Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/boepartners-api 401
+[debug] [2024-04-21T15:29:01.705Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/boepartners-api {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED"}}
+[debug] [2024-04-21T15:29:01.705Z] HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2024-04-21T15:29:01.819Z] FirebaseError: HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+    at responseToError (/Users/mariacamilasandovalsantana/.nvm/versions/node/v16.20.0/lib/node_modules/firebase-tools/lib/responseToError.js:49:12)
+    at RetryOperation._fn (/Users/mariacamilasandovalsantana/.nvm/versions/node/v16.20.0/lib/node_modules/firebase-tools/lib/apiv2.js:289:77)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[error] 
+[error] Error: Failed to get Firebase project boepartners-api. Please make sure the project exists and your account has permission to access it.

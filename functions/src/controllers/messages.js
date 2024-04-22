@@ -77,8 +77,8 @@ export async function getMessages(req, res) {
       { $unwind: "$userDetails" },
       {
         $project: {
-          "Date": 1,
-          "schoolDetails": 1,
+          "date": 1,
+          "message": 1,
           "userDetails": { email: 1, name: 1, lastName: 1, avatar: 1 }
         }
       }

@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose"
+import { mongoose } from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -59,11 +59,11 @@ const UserSchema = new mongoose.Schema({
   skills: {
     type: [String],
   },
-  img: {
+  avatar: {
     type: String,
-  }
+  },
 });
 
 const UserModel = mongoose.model("User", UserSchema);
 
-export default UserModel
+export default UserModel;

@@ -22,6 +22,6 @@ export async function subscribe(req, res) {
     res.status(200).send({ message: "Successfully subscribed", data: response });
   } catch (error) {
     console.error("Error subscribing to Mailchimp:", error);
-    res.status(500).send({ message: "Error subscribing to Mailchimp", error: error });
+    res.status(500).send({ message: "Already Suscribed", error: error });
   }
 }
