@@ -28,6 +28,7 @@ export async function getMember(req, res) {
 }
 
 export async function signUpMember(req, res) {
+
   try {
     const {
       email,
@@ -39,7 +40,7 @@ export async function signUpMember(req, res) {
       description,
     } = req.body;
 
-    const logoPath = req.file ? req.file.path : null;
+    const logo = req.file
 
     if (!email || (password && password.length < 8)) {
       res.status(400).send({
@@ -72,7 +73,7 @@ export async function signUpMember(req, res) {
       verificationToken,
       isVerified: false,
       description,
-      logoUrl: logoPath,
+      logoUrl: logo.filename,
     });
 
     const addedMember = await newMembers.save();

@@ -131,15 +131,18 @@ export async function addUserInfo(req, res) {
 
     // Handling multipart/form-data for arrays
     if (req.body["skills[]"]) {
-      updateData.skills = req.body["skills[]"];
-      if (typeof updateData.skills === "string") {
-        updateData.skills = [updateData.skills]; // Ensure it's always an array
+      let skills = req.body["skills[]"];
+      // Ensure it's always an array
+      if (typeof skills === "string") {
+        skills = [skills];
       }
+      update.$set.skills = skills;
     }
+
     // Check if an avatar file is uploaded
     if (req.file) {
-      const avatarUrl = req.file.path; // or generate a URL based on your needs
-      update.$set.avatar = avatarUrl; // Add/Update avatar field in the user document
+      const avatar = req.file;
+      update.$set.avatar = avatar.filename;
     }
 
     const options = { new: true };
@@ -158,7 +161,6 @@ export async function addUserInfo(req, res) {
         category: updatedUser.category,
         bio: updatedUser.bio,
         skills: updatedUser.skills,
-        avatar: updatedUser.avatar,
       };
       res
         .status(200)

@@ -27,86 +27,47 @@ import {
 } from "../controllers/premiumApplication.js";
 import { getMessages, createMessage } from "../controllers/messages.js";
 import { authenticateToken } from "../middlewares/token.js";
-import fs from "fs";
-import path from "path";
+import { GridFsStorage } from "multer-gridfs-storage";
+import { MONGOURI } from "../../env.js";
 
-const storageForResumes = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "resumes/");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
+const resumes = new GridFsStorage({
+  url: MONGOURI,
+  options: { useUnifiedTopology: true },
+  file: (req, file) => {
+    return {
+      filename: `${Date.now()}_${file.originalname}`,
+      bucketName: "resumes", 
+    };
   },
 });
 
-const storageForlogos = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const dest = "logo/";
-    fs.mkdirSync(dest, { recursive: true });
-    cb(null, dest);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
+const resumesFolder = multer({ storage: resumes });
+
+const avatars = new GridFsStorage({
+  url: MONGOURI,
+  options: { useUnifiedTopology: true },
+  file: (req, file) => {
+    return {
+      filename: `${Date.now()}_${file.originalname}`,
+      bucketName: "avatars", 
+    };
   },
 });
 
-const storageForAvatars = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const dest = "avatar/";
-    fs.mkdirSync(dest, { recursive: true });
-    cb(null, dest);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
+const avatarsFolder = multer({ storage: avatars });
+
+const logos = new GridFsStorage({
+  url: MONGOURI,
+  options: { useUnifiedTopology: true },
+  file: (req, file) => {
+    return {
+      filename: `${Date.now()}_${file.originalname}`,
+      bucketName: "logos", 
+    };
   },
 });
 
-// const filterResumes = function (req, file, cb) {
-//   if (!file.originalname.match(/\.(pdf)$/)) {
-//     return cb(new Error("Only PDFs are allowed!"), false);
-//   }
-//   cb(null, true);
-// };
-
-const filterlogos = function (req, file, cb) {
-  if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-    return cb(new Error("Only image files are allowed!"), false);
-  }
-  cb(null, true);
-};
-
-const filterAvatars = function (req, file, cb) {
-  if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-    return cb(new Error("Only image files are allowed!"), false);
-  }
-  cb(null, true);
-};
-
-const resumes = multer({
-  storage: storageForResumes,
-  // fileFilter: filterResumes,
-});
-const logos = multer({
-  storage: storageForlogos,
-  fileFilter: filterlogos,
-});
-
-const avatars = multer({
-  storage: storageForAvatars,
-  fileFilter: filterAvatars,
-});
+const logosFolder = multer({ storage: logos });
 
 const router = express.Router();
 
@@ -117,7 +78,7 @@ router.get("/api", (req, res) => {
 router.post("/api/signup", signUp);
 router.post("/api/login", login);
 router.get("/api/members", getMembers);
-router.post("/api/members/signup", logos.single("logo"), signUpMember);
+router.post("/api/members/signup", logosFolder.single("logo"), signUpMember);
 router.get("/api/programs", authenticateToken, getProgramsWithSchools);
 router.post("/api/programs", authenticateToken, addProgramsWithSchools);
 router.get("/memberPrograms", authenticateToken, getSchoolPrograms);
@@ -127,7 +88,7 @@ router.post("/subscribe", subscribe);
 router.patch(
   "/api/users",
   authenticateToken,
-  avatars.single("avatar"),
+  avatarsFolder.single("avatar"),
   addUserInfo
 );
 router.get("/userlikes", authenticateToken, getUserLikes);
@@ -136,7 +97,7 @@ router.post("/userlikes", authenticateToken, addLike);
 router.post(
   "/premiumApplication",
   authenticateToken,
-  resumes.single("resume"),
+  resumesFolder.single("resume"),
   addPremiumApplication
 );
 router.get("/premiumApplication", authenticateToken, getPremiumApplication);

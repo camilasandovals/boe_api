@@ -11,7 +11,6 @@ const premiumApplicationSchema = new Schema({
   program: {
     type: Schema.Types.ObjectId,
     ref: "Program",
-    required: true,
   },
   resumePath: {
     type: String,
