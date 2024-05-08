@@ -5,27 +5,27 @@ import Members from "../models/schoolSchema.js";
 export async function addPremiumApplication(req, res) {
     try {
       const userId = req.user?.id;
-      // const programId = req.body.programId;
-      const resume = req.body.resume;
+      const programId = req.body.programId;
+      const resume = req.file;
       if (!userId) {
         res.status(400).send({ message: "User ID is required" });
         return;
       }
 
-      // if (!programId) {
-      //   res.status(400).send({ message: "Program ID is required" });
-      //   return;
-      // }
-
-      if (!resume) {
-        res.status(200).send({ message:req.body });
+      if (!programId) {
+        res.status(400).send({ message: "Program ID is required" });
         return;
       }
 
-      // const doc = await PremiumApplication.findOne({ user: userId, program: programId });
-      // if (doc) {
-      //   return res.status(401).send({message: "You already applied to this program"});
-      // }
+      if (!resume) {
+        res.status(200).send({ message: "Resume file is required" });
+        return;
+      }
+
+      const doc = await PremiumApplication.findOne({ user: userId, program: programId });
+      if (doc) {
+        return res.status(401).send({message: "You already applied to this program"});
+      }
 
       const newApplicant = new PremiumApplication({
         user: userId,
