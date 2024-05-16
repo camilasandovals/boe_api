@@ -79,7 +79,7 @@ export async function getMessages(req, res) {
         $project: {
           "date": 1,
           "message": 1,
-          "userDetails": { email: 1, name: 1, lastName: 1, avatar: 1 }
+          "userDetails": { email: 1, name: 1, lastName: 1, avatarUrl: 1 }
         }
       }
     ]);

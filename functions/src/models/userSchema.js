@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema({
   skills: {
     type: [String],
   },
-  avatar: {
+  avatarUrl: {
     type: String,
   },
 });

@@ -1,5 +1,5 @@
 import express from "express";
-import multer from "multer";
+import Busboy from 'busboy';
 import { login, signUp, addUserInfo } from "../controllers/users.js";
 import {
   getMembers,
@@ -27,47 +27,8 @@ import {
 } from "../controllers/premiumApplication.js";
 import { getMessages, createMessage } from "../controllers/messages.js";
 import { authenticateToken } from "../middlewares/token.js";
-import { GridFsStorage } from "multer-gridfs-storage";
-import { MONGOURI } from "../../env.js";
-
-const resumes = new GridFsStorage({
-  url: MONGOURI,
-  options: { useUnifiedTopology: true },
-  file: (req, file) => {
-    return {
-      filename: `${Date.now()}_${file.originalname}`,
-      bucketName: "resumes", 
-    };
-  },
-});
-
-const resumesFolder = multer({ storage: resumes });
-
-const avatars = new GridFsStorage({
-  url: MONGOURI,
-  options: { useUnifiedTopology: true },
-  file: (req, file) => {
-    return {
-      filename: `${Date.now()}_${file.originalname}`,
-      bucketName: "avatars", 
-    };
-  },
-});
-
-const avatarsFolder = multer({ storage: avatars });
-
-const logos = new GridFsStorage({
-  url: MONGOURI,
-  options: { useUnifiedTopology: true },
-  file: (req, file) => {
-    return {
-      filename: `${Date.now()}_${file.originalname}`,
-      bucketName: "logos", 
-    };
-  },
-});
-
-const logosFolder = multer({ storage: logos });
+import { resumesFolder } from "../../index.js";
+import { Buffer } from 'buffer'
 
 const router = express.Router();
 
@@ -78,7 +39,7 @@ router.get("/api", (req, res) => {
 router.post("/api/signup", signUp);
 router.post("/api/login", login);
 router.get("/api/members", getMembers);
-router.post("/api/members/signup", logosFolder.single("logo"), signUpMember);
+router.post("/api/members/signup", signUpMember);
 router.get("/api/programs", authenticateToken, getProgramsWithSchools);
 router.post("/api/programs", authenticateToken, addProgramsWithSchools);
 router.get("/memberPrograms", authenticateToken, getSchoolPrograms);
@@ -88,23 +49,18 @@ router.post("/subscribe", subscribe);
 router.patch(
   "/api/users",
   authenticateToken,
-  avatarsFolder.single("avatar"),
   addUserInfo
 );
 router.get("/userlikes", authenticateToken, getUserLikes);
 router.get("/memberlikes", authenticateToken, getMemberLikes);
 router.post("/userlikes", authenticateToken, addLike);
-router.post(
-  "/premiumApplication",
-  authenticateToken,
-  resumesFolder.single("resume"),
-  addPremiumApplication
-);
+router.post('/premiumApplication', authenticateToken, addPremiumApplication);
 router.get("/premiumApplication", authenticateToken, getPremiumApplication);
 router.get("/memberApplications", authenticateToken, getMemberApplications);
 router.get("/messages", authenticateToken, getMessages);
 router.post("/messages", createMessage);
 router.post("/verify", verifyMember);
 router.delete("/api/programs/:id", deleteProgram);
+
 
 export default router;

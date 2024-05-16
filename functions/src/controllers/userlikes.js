@@ -121,7 +121,7 @@ export async function getMemberLikes(req, res) {
         $project: {
           Date: 1,
           programDetails: 1,
-          userDetails: { email: 1, name: 1, lastName: 1, avatar: 1 }, // Include only necessary user fields
+          userDetails: { email: 1, name: 1, lastName: 1, avatarUrl: 1 }, // Include only necessary user fields
         },
       },
     ]);

@@ -141,16 +141,34 @@ export async function getSchoolPrograms(req, res) {
 
     const objectIdSchoolId = new mongoose.Types.ObjectId(schoolId);
 
-    let pipeline = [
+    const programs = await Programs.aggregate([
+      {
+        $lookup: {
+          from: "members",
+          localField: "school",
+          foreignField: "_id",
+          as: "schoolDetails",
+        },
+      },
+      { $unwind: "$schoolDetails" },
       {
         $match: {
           school: objectIdSchoolId,
         },
       },
-    ];
-
-    const programs = await Programs.aggregate(pipeline);
+      {
+        $project: {
+          description: 1,
+          name: 1,
+          duration: 1,
+          cost: 1,
+          financing: 1,
+          schoolDetails: { logoUrl: 1, name: 1 },
+        },
+      },
+    ]);
     res.status(200).send(programs);
+      
   } catch (error) {
     console.error("Error in getProgramsForSchool:", error);
     res

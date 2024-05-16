@@ -95,6 +95,7 @@ export async function login(req, res) {
         category: user.category,
         bio: user.bio,
         skills: user.skills,
+        avatarUrl: user.avatarUrl,
       };
     } else {
       userResponse = {
@@ -139,28 +140,23 @@ export async function addUserInfo(req, res) {
       update.$set.skills = skills;
     }
 
-    // Check if an avatar file is uploaded
-    if (req.file) {
-      const avatar = req.file;
-      update.$set.avatar = avatar.filename;
-    }
-
     const options = { new: true };
 
     const updatedUser = await User.findOneAndUpdate(filter, update, options);
     const token = jwt.sign({ id: updatedUser._id }, secretKey);
 
-    if (updatedUser) {
+    if (req.body) {
       const userResponse = {
         type: "user",
         email: updatedUser.email,
         token: token,
-        name: updatedUser.name,
-        lastName: updatedUser.lastName,
-        location: updatedUser.location,
-        category: updatedUser.category,
-        bio: updatedUser.bio,
-        skills: updatedUser.skills,
+        name: req.body.name,
+        lastName: req.body.lastName,
+        location: req.body.location,
+        category: req.body.category,
+        bio: req.body.bio,
+        skills: req.body.skills,
+        avatarUrl: req.body.avatarUrl,
       };
       res
         .status(200)

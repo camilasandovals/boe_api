@@ -26,26 +26,43 @@ function testMailchimp() {
   }
 }
 
-
-let gfs;
-let bucket;
-
 mongoose.connect(MONGOURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoose.connection.on("connected", () => {
-  const db = mongoose.connection.db;
-  gfs = new GridFSBucket(db, { bucketName: "resumes" });
-  bucket = new GridFSBucket(db, { bucketName: "files" });
-  console.log("Connected to MongoDB and set up GridFS");
-  testMailchimp();
+const connection = mongoose.connection;
+
+let resumesFolder;
+
+connection.once('open', () => {
+  resumesFolder = new GridFSBucket(connection.db, {
+    bucketName: 'resumes'
+  });
 });
 
+// let avatarsFolder;
 
+// connection.once('open', () => {
+//   avatarsFolder = new GridFSBucket(connection.db, {
+//     bucketName: 'avatars'
+//   });
+// });
+
+
+// let logosFolder;
+
+// connection.once('open', () => {
+//   logosFolder = new GridFSBucket(connection.db, {
+//     bucketName: 'logos'
+//   });
+// });
+
+mongoose.connection.on("connected", () => {
+  testMailchimp();
+});
 
 
 // app.listen(3004, () => {
 //   console.log(`Server is running on port 3004`);
 // });
 
-// Export the API as a Firebase Cloud Function
+export { resumesFolder };
 export const api = functions.https.onRequest(app);
