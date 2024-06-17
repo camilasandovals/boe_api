@@ -106,7 +106,8 @@ export async function login(req, res) {
         email: user.email,
         typeOf: user.type,
         token: token,
-        description: user.description,
+        bio: user.description,
+        avatarUrl: user.logoUrl,
       };
     }
     res.status(200).send(userResponse);
@@ -142,7 +143,8 @@ export async function addUserInfo(req, res) {
 
     const options = { new: true };
 
-    const updatedUser = await User.findOneAndUpdate(filter, update, options);
+    let updatedUser = await User.findOneAndUpdate(filter, update, options);
+    if (updatedUser) {
     const token = jwt.sign({ id: updatedUser._id }, secretKey);
 
     if (req.body) {
@@ -161,8 +163,26 @@ export async function addUserInfo(req, res) {
       res
         .status(200)
         .send({ user: userResponse, message: "User updated successfully." });
-    } else {
-      res.status(404).send({ message: "User not found." });
+    }
+   } else {
+      updatedUser = await Member.findOneAndUpdate(filter, update, options);
+      const token = jwt.sign({ id: updatedUser._id }, secretKey);
+      if (req.body) {
+        const userResponse = {
+          type: "member",
+          name: req.body.name,
+          website: req.body.website,
+          industry: req.body.industry,
+          email: updatedUser.email,
+          typeOf: updatedUser.type,
+          token: token,
+          bio: updatedUser.description,
+          avatarUrl: updatedUser.logoUrl,
+        };
+        res
+          .status(200)
+          .send({ user: userResponse, message: "User updated successfully." });
+      }
     }
   } catch (error) {
     console.error(error);

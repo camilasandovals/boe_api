@@ -84,9 +84,24 @@ export async function signUpMember(req, res) {
     const mailOptions = {
       from: "info@boepartners.com",
       to: email,
-      subject: "Verify Your Email",
-      text: `Please click on the following link to verify your email: ${verificationUrl}`,
+      subject: "Verify Your Email - Welcome to BOE Partners!",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; text-align: center;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px; background-color: #f9f9f9;">
+            <h2 style="color: #437e58;">Welcome to BOE Partners!</h2>
+            <p style="color: #000;">Hi ${name},</p>
+            <p style="color: #000;">Thank you for signing up. Please verify your email by clicking the link below:</p>
+            <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; margin: 20px 0; color: white; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Verify Email</a>
+            <p style="color: #000;">Or copy and paste the following URL into your browser:</p>
+            <p style="color: #000; word-break: break-all;">${verificationUrl}</p>
+            <p style="color: #000;">If you did not sign up for BOE Partners, please ignore this email.</p>
+            <p style="color: #000;">Best regards,</p>
+            <p style="color: #000;">The BOE Partners Team</p>
+          </div>
+        </div>
+      `,
     };
+
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
@@ -99,6 +114,29 @@ export async function signUpMember(req, res) {
           .send({ message: "Verification email sent", member: addedMember });
       }
     });
+
+    const adminMailOptions = {
+      from: "info@boepartners.com",
+      to: "info@boepartners.com", 
+      subject: "New User Signed Up",
+      text: `A new user has signed up with the following details:
+      Name: ${name}
+      Email: ${email}
+      Website: ${website}
+      Organization Type: ${organizationType}
+      Industry: ${industry}
+      Description: ${description}
+      Logo URL: ${logoUrl}`
+    };
+
+    transporter.sendMail(adminMailOptions, function (error, info) {
+      if (error) {
+        console.log("Error sending admin email: ", error);
+      } else {
+        console.log("Admin email sent: " + info.response);
+      }
+    });
+
   } catch (error) {
     res.status(500).json({
       error: [error.message],

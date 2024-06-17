@@ -60,9 +60,9 @@ mongoose.connection.on("connected", () => {
 });
 
 
-// app.listen(3004, () => {
-//   console.log(`Server is running on port 3004`);
-// });
+app.listen(3004, () => {
+  console.log(`Server is running on port 3004`);
+});
 
 export { resumesFolder };
 export const api = functions.https.onRequest(app);

@@ -25,7 +25,7 @@ import {
   getPremiumApplication,
   getMemberApplications,
 } from "../controllers/premiumApplication.js";
-import { getMessages, createMessage } from "../controllers/messages.js";
+import { getMessages, createMessage, getUserMessages } from "../controllers/messages.js";
 import { authenticateToken } from "../middlewares/token.js";
 import { resumesFolder } from "../../index.js";
 import { Buffer } from 'buffer'
@@ -58,6 +58,7 @@ router.post('/premiumApplication', authenticateToken, addPremiumApplication);
 router.get("/premiumApplication", authenticateToken, getPremiumApplication);
 router.get("/memberApplications", authenticateToken, getMemberApplications);
 router.get("/messages", authenticateToken, getMessages);
+router.get("/userMessages", authenticateToken, getUserMessages);
 router.post("/messages", createMessage);
 router.post("/verify", verifyMember);
 router.delete("/api/programs/:id", deleteProgram);

@@ -79,6 +79,7 @@ export async function getProgramsWithSchools(req, res) {
         duration: 1,
         cost: 1,
         financing: 1,
+        location: 1,
         isLiked: 1,
       },
     });
@@ -163,6 +164,7 @@ export async function getSchoolPrograms(req, res) {
           duration: 1,
           cost: 1,
           financing: 1,
+          location: 1,
           schoolDetails: { logoUrl: 1, name: 1 },
         },
       },

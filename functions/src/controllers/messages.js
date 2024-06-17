@@ -92,3 +92,53 @@ export async function getMessages(req, res) {
     (error);
   }
 }
+
+export async function getUserMessages(req, res) { 
+  try {
+    const userId = req.user?.id; 
+    if (!userId) {
+      res.status(400).send({ message: "User ID is required" });
+      return;
+    }
+    const user = await Users.findById(userId);
+    if (!user) {
+      res.status(404).send({ message: "User not found" });
+      return;
+    }
+    const messages = await Messages.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "sender",
+          foreignField: "_id",
+          as: "userDetails"
+        }
+      },
+      { $unwind: "$userDetails" },
+      { $match: { "userDetails._id": user._id } },
+      {
+        $lookup: {
+          from: "members",
+          localField: "recipient",
+          foreignField: "_id",
+          as: "schoolDetails"
+        }
+      },
+      { $unwind: "$schoolDetails" },
+      {
+        $project: {
+          "date": 1,
+          "message": 1,
+          "schoolDetails": { name: 1, website: 1, logoUrl: 1 }
+        }
+      }
+    ]);
+    res.status(200).send(messages);
+
+  } catch (error) {
+    res.status(500
+    ).send
+    (error);
+  }
+}
+
