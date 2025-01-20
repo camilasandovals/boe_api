@@ -176,6 +176,8 @@ export async function verifyMember(req, res) {
       email: member.email,
       typeOf: member.type,
       token: generatedToken,
+      bio: member.description,
+      avatarUrl: member.logoUrl,
     };
 
     res.status(201).json(memberInfo);
